@@ -21,6 +21,7 @@ app.use(cookieParser());
 app.use(flash())
 app.use(session({ secret : "TSS", saveUninitialized: true}));
 app.use(require("./controller/default"));
+//app.use(require("./routes"));
 app.listen(process.env.PORT || 1000,function(){
   //console.log(Math.floor(Math.random() * (99999 - 10000) + 10000))
     console.log("server started at port 1000")

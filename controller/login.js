@@ -6,6 +6,10 @@ router.get('/banker',function(req,res){
     var pagedata={"title":"Home page","pagename":"home"}
                 res.render("layout",pagedata)
 })
+router.get('/customer',function(req,res){
+    var pagedata={"title":"Home page","pagename":"home"}
+                res.render("layout",pagedata)
+})
 //API for banker login:
 router.post('/banker',function(req,res){
     console.log("req.body of banker..",req.body);
@@ -47,16 +51,13 @@ router.post('/customer',function(req,res){
     //Function to search a customer based on usertype and username:
     allQueries.findwhere("user",req.body).then(result1=>{
         if(result1[0]==undefined){
-            //req.flash('error','Username or password incorrect!')
-                //res.redirect('back')
-                res.send({status:0,error:"Username or password incorrect!"})
+            req.flash('info','Username or password incorrect!')
+                res.redirect('back')
+                //res.send({status:0,error:"Username or password incorrect!"})
         }
         else if(result1){
             var data=result1[0]
             allQueries.getTransactions("accounts",{uid:data.uid}).then(result=>{
-                if(result.length==0){
-                    res.status(400).json({status:0,result:"No transactions available!"})
-                }
             console.log("transactions of uid ",data.uid,": ",result)
             console.log("result....",data)
             //Verifying password:
@@ -70,9 +71,9 @@ router.post('/customer',function(req,res){
                 res.render("layout",pagedata)
             }
             else{
-                //req.flash('error','Username or password incorrect!')
-                //res.redirect('back')
-                res.send({status:0,error:"Username or password incorrect!"})
+                req.flash('info','Username or password incorrect!')
+                res.redirect('back')
+                //res.send({status:0,error:"Username or password incorrect!"})
             }
         })
         }
