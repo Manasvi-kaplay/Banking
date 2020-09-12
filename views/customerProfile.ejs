@@ -1,0 +1,84 @@
+<body>
+    <ul>
+        <li><button class="open-button" onclick="openForm1()">Deposit</button></li>&nbsp;&nbsp;&nbsp;
+        <li><button class="open-button" onclick="openForm2()">Withdraw</button></li>&nbsp;&nbsp;&nbsp;
+        <li><button class="open-button" onclick="logout()">Logout</button></li>
+    </ul>
+    <br>
+    <center>
+        <br>
+    <div class="form-popup" id="myForm1">
+        <form action="/customer/deposit" class="form-container" method="post">
+          <label for="amt"><b>Enter amount to be deposited:</b></label>
+          <input type="number" placeholder="Enter amount" name="amt" required>
+          <input type="hidden" value="d" name="status">
+          <input type="hidden" value="<%=uid%>" name="uid">
+          <input type="hidden" value="<%=net_bal%>" name="net_bal">
+          <button type="submit" class="btn">Submit</button>
+          <button type="button" class="btn cancel" onclick="closeForm1()">Close</button>
+        </form>
+      </div>
+      <div class="form-popup" id="myForm2">
+        <form action="/customer/withdraw" class="form-container" method="post">
+          <label for="amt"><b>Enter amount to be withdrawn:</b></label>
+          <input type="number" placeholder="Enter amount" name="amt" required>
+          <input type="hidden" value="w" name="status">
+          <input type="hidden" value="<%=uid%>" name="uid">
+          <input type="hidden" value="<%=net_bal%>" name="net_bal">
+          <button type="submit" class="btn">Submit</button>
+          <button type="button" class="btn cancel" onclick="closeForm2()">Close</button>
+        </form>
+        <div class="error">
+          <h3><i><%=messages.info%></i></h3>
+      </div>
+      </div>
+      </center>
+    <center>
+        <br><br>
+    <h2>List of transactions</h2>   
+    <h4>Id: <%=uid%>&nbsp;&nbsp;&nbsp;&nbsp;Name: <%=unm%>&nbsp;&nbsp;&nbsp;&nbsp;Usertype: Customer&nbsp;&nbsp;&nbsp;&nbsp;Net balance: <%=net_bal%>&nbsp;&nbsp;&nbsp;&nbsp;No. of transactions: <%=transactions.length%></h4> 
+    <div class="container">
+    <table border="1px" class="table table-hover">
+      <thead>
+        <tr>
+            <th style="text-align:center">S.No</th>
+            <th style="text-align:center">Amount</th>
+            <th style="text-align:center">Deposited/Withdrawn</th>
+            <th style="text-align:center">Date and time</th>
+            </tr>
+            </thead>
+            <tbody>
+            <% transactions.forEach(function(x,i){ %>
+                <tr>
+                    <td><%=i+1%></td>
+                    <td><%=x.amt%></td>
+                    <td><%=x.status%></td>
+                    <td><%=x.date_time%></td>
+                </tr>
+            <%})%>
+            </tbody>
+    </table>
+    </div>
+    </center>
+    
+    <script>
+      localStorage.setItem("token",token);
+      function logout(){
+        localStorage.removeItem("token");
+        window.location="/home";
+      }
+        function openForm1() {
+          document.getElementById("myForm1").style.display = "block";
+        }
+        function openForm2() {
+            document.getElementById("myForm2").style.display = "block";
+          }
+        
+        function closeForm1() {
+          document.getElementById("myForm1").style.display = "none";
+        }
+        function closeForm2() {
+          document.getElementById("myForm2").style.display = "none";
+        }
+        </script>
+    </body>

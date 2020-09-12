@@ -1,0 +1,42 @@
+<body>
+<ul>
+    <li><button class="open-button" onclick="logout()">Logout</button></li>
+</ul>
+<center>
+<h2>List of customers</h2>   
+<h4>Name: <%=unm%>&nbsp;&nbsp;&nbsp;&nbsp;Usertype: Banker&nbsp;&nbsp;&nbsp;&nbsp;No. of customers: <%=customers.length%></h4> <br>
+<div class="container">
+<table border="1px" class="table table-hover">
+    <thead>
+    <tr>
+        <th style="text-align:center">S.No</th>
+        <th style="text-align:center">Id</th>
+        <th style="text-align:center">Name</th>
+        <th style="text-align:center">Net balance</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% customers.forEach(function(x,i){ %>
+            <tr>
+                <td><%=i+1%></td>
+                <td><form method="get" action="/banker/transactions">
+                    <input type="hidden" value="<%=token%>" name="token">
+                    <input type="hidden" value="<%=x.uid%>" name="uid">
+                    <button type="submit"><%=x.uid%></button>
+                </form></td>
+                <td><%=x.unm%></td>
+                <td><%=x.net_bal%></td>
+            </tr>
+        <%})%>
+        </tbody>
+</table>
+</div>
+</center>
+<script>
+    localStorage.setItem("token",token);
+    function logout(){
+        localStorage.removeItem("token");
+        window.location="/home";
+    }
+</script>
+</body>
